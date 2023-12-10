@@ -23,7 +23,7 @@ const Login = () => {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/user/send-message",
+        "https://h2-o-backend-2zkv.vercel.app/api/user/send-message",
         {
           method: "POST",
           headers: {
@@ -64,13 +64,16 @@ const Login = () => {
     // Perform login actions using the provided username and password
     try {
       // Replace this with your actual login API endpoint
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        "https://h2-o-backend-2zkv.vercel.app/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Login failed");

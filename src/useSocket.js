@@ -95,7 +95,7 @@ const useSocket = () => {
   const handleLogin = (token) => {
     setIsLoggedIn(true);
     setToken(token);
-    let sock = io("http://localhost:5000", {
+    let sock = io("https://h2-o-backend-2zkv.vercel.app/", {
       query: {
         token: token,
       },
@@ -149,7 +149,7 @@ const useSocket = () => {
   const handleSendFriendRequest = async (receiverEmail) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/user/getUserData",
+        "https://h2-o-backend-2zkv.vercel.app/api/user/getUserData",
         {
           method: "GET",
           headers: {
