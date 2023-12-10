@@ -10,7 +10,7 @@ const useSocket = () => {
   const [senderEmail, setSenderEmail] = useState(null);
   const [receiverEmail, setReceiverEmail] = useState(null);
   useEffect(() => {
-    const newSocket = io("https://h2-o-backend-2zkv.vercel.app/");
+    const newSocket = io("wss://h2-o-backend-2zkv.vercel.app/");
 
     newSocket.on("connect", () => {
       console.log("Connected to server");
