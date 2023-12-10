@@ -1,0 +1,29 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import FriendRequestComponent from "./FriendRequest";
+import NotificationReceiverComponent from "./Notification";
+import { useEffect } from "react";
+
+const App = () => {
+  /*
+  useEffect(() => {
+    socket.emit("connection");
+  }, []);
+  */
+
+  return (
+    <BrowserRouter>
+      <div>
+        <Routes>
+          <Route path="/" element={<FriendRequestComponent />} />
+          <Route
+            path="/notifications"
+            element={<NotificationReceiverComponent />}
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+};
+
+export default App;
