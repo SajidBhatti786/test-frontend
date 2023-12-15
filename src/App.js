@@ -15,7 +15,35 @@ const Login = () => {
   } = useSocket();
   const [reciverEmail, setReceiverEmail] = useState("");
   const [mydata, setMydata] = useState("");
+  // const [receiverEmail, setReceiverEmail] = useState("");
+
   const sendFriendRequest = async () => {
+    try {
+      const response = await fetch(
+        "http://3.144.244.10:3000/api/user/friend-request",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: myToken,
+          },
+          body: JSON.stringify({ receiverEmail: reciverEmail }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+
+      const data = await response.json();
+      console.log("Friend request sent successfully:", data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle errors here
+      return null;
+    }
+  };
+  const sendPrivateMessage = async () => {
     try {
       const data = {
         receiverId: reciverEmail,
@@ -23,7 +51,7 @@ const Login = () => {
       };
 
       const response = await fetch(
-        "https://h2-o-backend-2zkv.vercel.app/api/user/send-message",
+        "http://3.144.244.10:3000/api/user/send-message",
         {
           method: "POST",
           headers: {
@@ -64,16 +92,13 @@ const Login = () => {
     // Perform login actions using the provided username and password
     try {
       // Replace this with your actual login API endpoint
-      const response = await fetch(
-        "https://h2-o-backend-2zkv.vercel.app/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username, password }),
-        }
-      );
+      const response = await fetch("http://3.144.244.10:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
       if (!response.ok) {
         throw new Error("Login failed");
@@ -88,7 +113,7 @@ const Login = () => {
       handleLogin(token);
 
       // Reset username and password fields after successful login
-      setUsername("");
+      // setUsername("");
       setPassword("");
     } catch (error) {
       console.error("Login error:", error.message);
@@ -99,6 +124,7 @@ const Login = () => {
   return (
     <div>
       <h2>Login</h2>
+      <h3>Username: {username}</h3>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
@@ -133,8 +159,9 @@ const Login = () => {
               onChange={(e) => setReceiverEmail(e.target.value)}
             />
           </div>
-          <button onClick={sendFriendRequest}>Send Friend Request</button>
+          <button onClick={sendPrivateMessage}>Send Message</button>
           <button onClick={handleSendMessage}>Send Private Message</button>
+          <button onClick={sendFriendRequest}>Send Friend Request</button>
         </div>
       )}
 

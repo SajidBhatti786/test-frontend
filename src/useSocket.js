@@ -10,7 +10,7 @@ const useSocket = () => {
   const [senderEmail, setSenderEmail] = useState(null);
   const [receiverEmail, setReceiverEmail] = useState(null);
   useEffect(() => {
-    const newSocket = io("wss://h2-o-backend-2zkv.vercel.app/");
+    const newSocket = io("http://3.144.244.10:3000");
 
     newSocket.on("connect", () => {
       console.log("Connected to server");
@@ -95,7 +95,7 @@ const useSocket = () => {
   const handleLogin = (token) => {
     setIsLoggedIn(true);
     setToken(token);
-    let sock = io("https://h2-o-backend-2zkv.vercel.app/", {
+    let sock = io("http://3.144.244.10:3000", {
       query: {
         token: token,
       },
@@ -120,6 +120,21 @@ const useSocket = () => {
 
   useEffect(() => {
     if (socket) {
+      socket.on("friendRequestSent", (data) => {
+        console.log("ReRending");
+        console.log("Friend Request Recived:", data);
+        // Handle the received data or update UI accordingly
+        toast.success(`Friend Request Recived from ${data.sender}`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
       console.log("reRendering");
       socket.on("privateMessageSent", (data) => {
         console.log("ReRending");
@@ -136,6 +151,7 @@ const useSocket = () => {
           theme: "light",
         });
       });
+
       socket.on("privateMessageReceived", (data) => {
         console.log("Private message received:", data);
         // Handle the received data or update UI accordingly
@@ -149,7 +165,7 @@ const useSocket = () => {
   const handleSendFriendRequest = async (receiverEmail) => {
     try {
       const response = await fetch(
-        "https://h2-o-backend-2zkv.vercel.app/api/user/getUserData",
+        "http://3.144.244.10:3000/api/user/getUserData",
         {
           method: "GET",
           headers: {
